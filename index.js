@@ -83,13 +83,41 @@ app.get("/search-by-id", (req, res) => {
     });
 });
 
-app.get("/search/:name", (req, res) => {
-  const name = req.params.name;
-  Profile.find(name)
+app.get("/search-one", (req, res) => {
+  // const name = req.params.name;
+  Profile.findOne({ name: "Molani" })
     .then((result) => {
       res.send(result);
     })
     .catch((err) => {
-      console.log("error");
+      console.log(err);
+    });
+});
+
+//find one item and update the food field
+app.get("/searchbyfood", (req, res) => {
+  Profile.updateOne(
+    { name: "Motolani" },
+    { $addToSet: { favoriteFoods: "milo" } }
+  )
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  // var Profile = Profile.findOne({ name: "John" });
+  // Profile.Profile.push({ favoriteFoods: "dodo" });
+  // Profile.save();
+});
+
+app.get("/updateage", (req, res) => {
+  Profile.updateOne({ name: "Motolani" }, { $set: { age: 20 } })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 });
