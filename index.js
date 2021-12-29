@@ -1,4 +1,5 @@
 //Import the mongoose module
+//require("dotenv").//config();
 const express = require("express");
 const mongoose = require("mongoose");
 const Profile = require("./models/profile");
@@ -8,7 +9,7 @@ const app = express();
 //connect to mondodb
 const dbURL =
   "mongodb+srv://mooh:consolidated123@cluster0.rkhb6.mongodb.net/Persons?retryWrites=true&w=majority";
-//mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose
   .connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -74,6 +75,17 @@ app.get("/all-person", (req, res) => {
 // //searching db by id
 app.get("/search-by-id", (req, res) => {
   Profile.findById("61cc2cec8c2db84d8e654a77")
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("error");
+    });
+});
+
+app.get("/search/:name", (req, res) => {
+  const name = req.params.name;
+  Profile.find(name)
     .then((result) => {
       res.send(result);
     })
